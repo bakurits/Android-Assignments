@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Maps Store Page</string>
+    <string name="main_title">Maps</string>
+    <string name="company_name">Google inc.</string>
+    <string name="uninstall_button_text">UNINSTALL</string>
+    <string name="open_button_text">OPEN</string>
+    <string name="rating_3">3+</string>
+    <string name="users_in_billions">1</string>
+    <string name="rating">4.3</string>
+    <string name="travel_local">Travel &amp; Local</string>
+    <string name="get_latest">Get the latest Google Maps app.</string>
 </resources>

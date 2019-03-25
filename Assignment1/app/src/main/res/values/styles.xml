@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="small_rating_bar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_starts</item>
+
+    </style>
+
+    <style name="big_rating_bar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_starts</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
 </resources>
