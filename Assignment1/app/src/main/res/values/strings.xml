@@ -9,4 +9,12 @@
     <string name="rating">4.3</string>
     <string name="travel_local">Travel &amp; Local</string>
     <string name="get_latest">Get the latest Google Maps app.</string>
+    <string name="what_s_new_title">WHAT\'S NEW</string>
+    <string name="null_string">♦ Easily find hours and phone numbers for large department stores with the new department store directory
+    in Google Maps\n (US only)</string>
+    <string name="read_more">READ MORE</string>
+    <string name="user_name">Bakur Tsutskhashvili</string>
+    <string name="downloads">Downloads</string>
+    <string name="rate_this_app">Rate this app</string>
+    <string name="reviews_are_linked_to_your_account_and_are_public">Reviews are linked to your account and are public</string>
 </resources>
