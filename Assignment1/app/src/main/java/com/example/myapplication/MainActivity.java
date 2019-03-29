@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         fillRatedUserCount();
         setButtonListeners();
-        setupRatingBars();
+        setupRatings();
         TextView textView = findViewById(R.id.billionCount);
         textView.setText("1");
 
@@ -51,12 +51,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupRatingBars() {
-        RatingBar ratingBar1 = findViewById(R.id.ratingBarTop);
-        RatingBar ratingBar2 = findViewById(R.id.ratingBarBottom);
+    private void setupRatings() {
+        float averageRating = (float) 4.3;
 
-        ratingBar1.setRating((float) 4.3);
-        ratingBar2.setRating((float) 4.3);
+        ((RatingBar) findViewById(R.id.ratingBarTop)).setRating(averageRating);
+        ((RatingBar) findViewById(R.id.ratingBarBottom)).setRating(averageRating);
+
+
+        ((TextView) findViewById(R.id.averageRatingTextView1)).setText(String.valueOf(averageRating));
+        ((TextView) findViewById(R.id.averageRatingTextView1)).setText(String.valueOf(averageRating));
+
     }
 
 }
