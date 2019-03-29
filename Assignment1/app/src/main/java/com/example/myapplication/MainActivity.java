@@ -1,10 +1,19 @@
 package com.example.myapplication;
 
+import android.media.Image;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,10 +22,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fillRatedUserCount();
+        setButtonListeners();
         TextView textView = findViewById(R.id.billionCount);
         textView.setText("1");
 
 
-
     }
+
+    private void fillRatedUserCount() {
+        int ratedUserCount = 5493032;
+
+        String ratedUserCnt = NumberFormat.getNumberInstance(Locale.US).format(ratedUserCount);
+        final TextView textView1 = findViewById(R.id.ratedUserCntTextView1);
+        final TextView textView2 = findViewById(R.id.ratedUserCntTextView2);
+        textView1.setText(ratedUserCnt);
+        textView2.setText(ratedUserCnt);
+    }
+
+    private void setButtonListeners() {
+        addSnackBarOnClick(findViewById(R.id.uninstallButton), "\"Uninstall\" button clicked");
+        addSnackBarOnClick(findViewById(R.id.openButton), "\"Open\" button clicked");
+        addSnackBarOnClick(findViewById(R.id.imageView3), "\"Travel & Local\" Icon clicked");
+        addSnackBarOnClick(findViewById(R.id.imageView4), "\"Similar Icon\" clicked");
+    }
+
+    private void addSnackBarOnClick(final View clickable, final String textToDisplay) {
+        clickable.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Snackbar.make(v, textToDisplay, Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 }
