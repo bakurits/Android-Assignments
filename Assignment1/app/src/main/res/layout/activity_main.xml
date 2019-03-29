@@ -206,7 +206,7 @@
 
             <RatingBar
                 android:id="@+id/ratingBarTop"
-                style="@style/customRatingBar"
+                style="@style/customRatingBarWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -338,7 +338,6 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="roboto"
                     android:text="@string/null_string"
                     android:textColor="#5B8F36"
                     android:textSize="13sp"
@@ -643,13 +642,13 @@
             <RatingBar
                 android:id="@+id/ratingBarBottom"
                 style="@style/customRatingBar"
-                android:theme="@style/customRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
                 android:rating="4.5"
                 android:scaleX=".5"
                 android:scaleY=".5"
+                android:theme="@style/customRatingBar"
                 android:transformPivotX="0dp"
                 android:transformPivotY="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/ratedUserCntTextView2"
