@@ -1,16 +1,11 @@
 package com.example.myapplication;
 
-import android.media.Image;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -24,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         fillRatedUserCount();
         setButtonListeners();
+        setupRatingBars();
         TextView textView = findViewById(R.id.billionCount);
         textView.setText("1");
 
@@ -55,5 +51,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupRatingBars() {
+        RatingBar ratingBar1 = findViewById(R.id.ratingBarTop);
+        RatingBar ratingBar2 = findViewById(R.id.ratingBarBottom);
+
+        ratingBar1.setRating((float) 4.3);
+        ratingBar2.setRating((float) 4.3);
+    }
 
 }
