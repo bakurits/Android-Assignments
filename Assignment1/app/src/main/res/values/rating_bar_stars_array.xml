@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="stars_array">
+        <item>@id/imageView16</item>
+        <item>@id/imageView17</item>
+        <item>@id/imageView18</item>
+        <item>@id/imageView19</item>
+        <item>@id/imageView20</item>
+    </array>
+</resources>
