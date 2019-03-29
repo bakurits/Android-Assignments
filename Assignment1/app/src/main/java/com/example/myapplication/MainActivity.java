@@ -19,6 +19,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        starClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TypedArray stars = getResources().obtainTypedArray(R.array.stars_array);
+                int sz = stars.length();
+                boolean black = true;
+                System.out.println(sz);
+                for (int i = 0; i < sz; i++) {
+                    int resId = stars.getResourceId(i, -1);
+                    if (resId == -1) continue;
+
+                    ImageView img = findViewById(resId);
+
+
+                    if (black)
+                        img.setImageResource(R.drawable.icons_star_filled);
+                    else
+                        img.setImageResource(R.drawable.icons_star_empty);
+
+                    if (v.equals(img)) black = false;
+
+                }
+                stars.recycle();
+            }
+        };
+
+
         fillRatedUserCount();
         setButtonListeners();
         setupRatingBarListeners();
@@ -67,46 +94,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private View.OnClickListener starClickListener;
+
     private void setupRatingBarListeners() {
         TypedArray stars = getResources().obtainTypedArray(R.array.stars_array);
-        stars.recycle();
+
         int sz = stars.length();
 
         for (int i = 0; i < sz; i++) {
             int resId = stars.getResourceId(i, -1);
             if (resId > -1)
-                addClickListenerOnStar((ImageView) findViewById(resId));
-
+                findViewById(resId).setOnClickListener(starClickListener);
 
         }
-
+        stars.recycle();
     }
 
-    private void addClickListenerOnStar(final ImageView imageView) {
-        imageView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                TypedArray stars = getResources().obtainTypedArray(R.array.stars_array);
-                stars.recycle();
-                int sz = stars.length();
-                boolean black = true;
-                System.out.println(sz);
-                for (int i = 0; i < sz; i++) {
-                    int resId = stars.getResourceId(i, -1);
-                    if (resId == -1) continue;
-
-                    ImageView img = findViewById(resId);
-
-
-                    if (black)
-                        img.setImageResource(R.drawable.icons_star_filled);
-                    else
-                        img.setImageResource(R.drawable.icons_star_empty);
-
-                    if (imageView.equals(img)) black = false;
-
-                }
-            }
-        });
-    }
 
 }
