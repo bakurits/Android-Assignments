@@ -21,7 +21,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <!-- Cover Photo -->
             <ImageView
                 android:id="@+id/coverPhoto"
                 android:layout_width="0dp"
@@ -34,6 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/background" />
 
+            <!-- App title -->
             <ImageView
                 android:id="@+id/appIcon"
                 android:layout_width="100dp"
@@ -80,6 +81,7 @@
                 app:layout_constraintStart_toEndOf="@+id/appIcon"
                 app:layout_constraintTop_toBottomOf="@+id/companyName" />
 
+            <!-- Open/Uninstall buttons -->
             <Button
                 android:id="@+id/openButton"
                 android:layout_width="0dp"
@@ -124,6 +126,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/uninstallButton" />
 
+            <!-- Info -->
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="70dp"
@@ -284,6 +287,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view6" />
 
+            <!-- Whats' new -->
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/whats_new"
                 android:layout_width="0dp"
@@ -352,6 +356,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
+            <!-- Screenshots -->
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
                 android:layout_width="0dp"
