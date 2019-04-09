@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 import java.util.Locale;
@@ -52,18 +52,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         WeatherByDay weather = forecast.get(position);
         holder.day.setText(weather.getDay());
         holder.weather.setText(weather.getWeather());
-        Picasso.get().load(weather.getIconUrl()).resize(50, 50)
-                .centerCrop().into(holder.icon, new Callback() {
-            @Override
-            public void onSuccess() {
-                Log.d("asdasd", "yleeo");
-            }
+        Glide.with(holder.itemView.getContext()).load(weather.getIconUrl())
+                .into(holder.icon);
 
-            @Override
-            public void onError(Exception e) {
-                Log.d("asdasd", e.getMessage());
-            }
-        });
     }
 
     @Override

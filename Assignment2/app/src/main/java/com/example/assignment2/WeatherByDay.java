@@ -26,6 +26,10 @@ class WeatherByDay {
             this.weather = "Err";
         }
 
+        if (this.iconUrl.startsWith("/")) {
+            this.iconUrl = "http:" + this.iconUrl;
+        }
+
     }
 
     public String getDay() {
