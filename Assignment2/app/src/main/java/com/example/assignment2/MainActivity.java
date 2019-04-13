@@ -1,17 +1,28 @@
 package com.example.assignment2;
 
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.assignment2.Models.Astro;
+import com.example.assignment2.Models.Weather;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView dayAndNightTextView;
     private TextView temperatureTextView;
 
+
+    private TextView topDateDay;
+    private TextView topDateHour;
+    private ImageView topGrad;
+    private ImageView dayIndicatorIcon;
+    private ImageView drop;
+    private ImageView drops;
+    private ImageView flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
         windSpeedInfoTextView = (TextView) findViewById(R.id.windSpeedInfo);
         dayAndNightTextView = (TextView) findViewById(R.id.dayAndNightInfo);
         temperatureTextView = (TextView) findViewById(R.id.temperatureInfo);
+        dayIndicatorIcon = (ImageView) findViewById(R.id.imageView2);
+        drop = (ImageView) findViewById(R.id.imageView3);
+        drops = (ImageView) findViewById(R.id.imageView4);
+        flag = (ImageView) findViewById(R.id.imageView5);
+        topGrad = (ImageView) findViewById(R.id.imageView);
+
+        topDateDay = (TextView) findViewById(R.id.dayInfo);
+        topDateHour = (TextView) findViewById(R.id.timeInfo);
 
 
         // use this setting to improve performance if you know that changes
@@ -65,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForecast(String country) {
 
-        api.listRepos(country, "1b4fcf51354d41179f595933190704", 10).enqueue(new Callback<JsonObject>() {
+        api.listRepos(country, "1b4fcf51354d41179f595933190704", 10).enqueue(new Callback<Weather>() {
             @Override
-            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<Weather> call, @NonNull Response<Weather> response) {
 
                 if (response.isSuccessful()) {
                     assert response.body() != null;
@@ -77,44 +105,40 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-                Log.d("response_TAG", "onFailure");
+            public void onFailure(@NonNull Call<Weather> call, @NonNull Throwable t) {
+                Log.d("response_TAG", t.getMessage());
             }
         });
     }
 
 
     private void initializeRetrofit() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.apixu.com/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         api = retrofit.create(WeatherApi.class);
     }
 
-    private void fillData(JsonObject data) {
+    private void fillData(Weather data) {
 
-        String city = data.get("location").getAsJsonObject().get("name").getAsString();
-        String perceived = data.get("current").getAsJsonObject().get("feelslike_c").getAsString() + "%";
-        String temperature = data.get("current").getAsJsonObject().get("temp_c").getAsString();
-        String humidity = data.get("current").getAsJsonObject().get("humidity").getAsString() + "%";
-        String wind = data.get("current").getAsJsonObject().get("wind_kph").getAsString() + " kph";
-        String sunRiseAndSet = "";
+        setupTheme(data.getCurrent().isDay());
 
-        JsonArray arr = data.get("forecast").getAsJsonObject().get("forecastday").getAsJsonArray();
-        ArrayList<WeatherByDay> lst = new ArrayList<>();
+        String city = data.getLocation().getCity();
+        String perceived = data.getCurrent().getPerceived();
+        String temperature = data.getCurrent().getTemp();
+        String humidity = data.getCurrent().getHumidity();
+        String wind = data.getCurrent().getMaxWind();
+        Astro astro = data.getForecast().getForecast().get(0).getAstro();
+        String sunRiseAndSet = astro.getSunrise() + " " + astro.getSunset();
+        String precip = data.getCurrent().getPrecip();
 
+        setTopTime(data.getLocation().getLocalTime());
 
-        for (int i = 0; i < arr.size(); i++) {
-            JsonObject item = arr.get(i).getAsJsonObject();
-            WeatherByDay day = new WeatherByDay(item.get("date").getAsString(),
-                    item.get("day").getAsJsonObject().get("avgtemp_c").getAsDouble(),
-                    item.get("day").getAsJsonObject().get("condition").getAsJsonObject().get("icon").getAsString());
-            if (sunRiseAndSet.equals("")) {
-                sunRiseAndSet = item.get("astro").getAsJsonObject().get("sunrise").getAsString() + " " + item.get("astro").getAsJsonObject().get("sunset").getAsString();
-            }
-            lst.add(day);
-        }
 
         cityTextView.setText(city);
         perceivedTextView.setText(perceived);
@@ -122,10 +146,46 @@ public class MainActivity extends AppCompatActivity {
         humidityTextView.setText(humidity);
         windSpeedInfoTextView.setText(wind);
         dayAndNightTextView.setText(sunRiseAndSet);
+        precipitationTextView.setText(precip);
 
-
-        mAdapter = new RecyclerViewAdapter(lst);
+        mAdapter = new RecyclerViewAdapter(data.getForecast().getForecast());
 
         recyclerView.setAdapter(mAdapter);
+
+
+    }
+
+
+    private void setupTheme(boolean isDay) {
+
+
+        if (isDay) {
+            flag.setImageTintList(null);
+            drop.setImageTintList(null);
+            drops.setImageTintList(null);
+            dayIndicatorIcon.setImageResource(R.drawable.ic_sun);
+            topGrad.setImageResource(R.drawable.top_gradiental_shape_day);
+
+        } else {
+            int colorInt = ContextCompat.getColor(flag.getContext(), R.color.colorDarkMode);
+            flag.setImageTintList(ColorStateList.valueOf(colorInt));
+            drop.setImageTintList(ColorStateList.valueOf(colorInt));
+            drops.setImageTintList(ColorStateList.valueOf(colorInt));
+            topGrad.setImageResource(R.drawable.top_gradiental_shape_night);
+            dayIndicatorIcon.setImageResource(R.drawable.ic_moon);
+        }
+
+    }
+
+    private void setTopTime(String tm) {
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).parse(tm);
+            String topDate = new SimpleDateFormat("EEEE dd", Locale.US).format(date);
+            String topTime = new SimpleDateFormat("hh:mm a", Locale.US).format(date);
+            topDateDay.setText(topDate);
+            topDateHour.setText(topTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

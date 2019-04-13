@@ -13,13 +13,15 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.example.assignment2.Models.DayInfo;
+import com.example.assignment2.Models.Forecast;
 
 import java.util.List;
 import java.util.Locale;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    private List<WeatherByDay> forecast;
+    private List<DayInfo> forecast;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView day, weather;
@@ -34,7 +36,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public RecyclerViewAdapter(List<WeatherByDay> forecast) {
+    public RecyclerViewAdapter(List<DayInfo> forecast) {
         this.forecast = forecast;
     }
 
@@ -49,10 +51,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        WeatherByDay weather = forecast.get(position);
-        holder.day.setText(weather.getDay());
-        holder.weather.setText(weather.getWeather());
-        Glide.with(holder.itemView.getContext()).load(weather.getIconUrl())
+        DayInfo day = forecast.get(position);
+        holder.day.setText(day.getFormattedDate());
+        holder.weather.setText(day.getTemp());
+        Glide.with(holder.itemView.getContext()).load(day.getCondition().getIconUrl())
                 .into(holder.icon);
 
     }

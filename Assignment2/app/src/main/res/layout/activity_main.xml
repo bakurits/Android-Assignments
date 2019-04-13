@@ -72,23 +72,9 @@
                 android:layout_marginTop="12dp"
                 android:text="Monday 17"
                 android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toStartOf="@+id/textView4"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cityName" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="gen 18"
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toStartOf="@+id/timeInfo"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/dayInfo"
-                app:layout_constraintTop_toTopOf="@+id/dayInfo" />
 
             <TextView
                 android:id="@+id/timeInfo"
@@ -98,8 +84,8 @@
                 android:fontFamily="sans-serif"
                 android:text="6:30 am"
                 android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toTopOf="@+id/textView4" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/dayInfo"
+                app:layout_constraintStart_toEndOf="@+id/dayInfo" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -161,7 +147,6 @@
                 android:id="@+id/imageView3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:elevation="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/imageView4"
@@ -203,7 +188,6 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:elevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
