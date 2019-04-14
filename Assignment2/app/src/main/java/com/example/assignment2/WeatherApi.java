@@ -14,6 +14,6 @@ import retrofit2.http.Query;
 public interface WeatherApi {
 
     @GET("v1/forecast.json")
-    Call<Weather> listRepos(@Query("q") String countryName, @Query("key") String key, @Query("days") int days);
+    Call<Weather> getWeather(@Query("q") String countryName, @Query("key") String key, @Query("days") int days);
 
 }
