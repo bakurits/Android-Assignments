@@ -1,5 +1,6 @@
 package com.example.assignment2;
 
+import android.app.ProgressDialog;
 import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -9,7 +10,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.assignment2.Models.Astro;
@@ -37,21 +40,23 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private CountryListApi api;
 
-
     private ViewPager viewPager;
     private FragmentAdapter adapter;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = findViewById(R.id.viewPager);
+        progressBar = findViewById(R.id.progressBar_cyclic);
+        progressBar.setVisibility(View.VISIBLE);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://restcountries.eu/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
 
         api = retrofit.create(CountryListApi.class);
         retrieveCounties();
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     adapter = new FragmentAdapter(getSupportFragmentManager(), response.body());
                     viewPager.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
                 }
 
             }

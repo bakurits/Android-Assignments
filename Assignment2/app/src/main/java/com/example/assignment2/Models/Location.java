@@ -14,14 +14,17 @@ public class Location {
     private String localTime;
 
     public String getCity() {
+        if (city == null) return "Empty";
         return city;
     }
 
     public String getCountry() {
+        if (country == null) return "Empty";
         return country;
     }
 
     public String getLocalTime() {
+        if (localTime == null) return "Empty";
         return localTime;
     }
 }

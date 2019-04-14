@@ -7,6 +7,7 @@ public class Country {
     private String name;
 
     public String getName() {
+        if (name == null) return "Empty";
         return name;
     }
 }

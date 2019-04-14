@@ -6,10 +6,12 @@ public class Astro {
     private String sunset;
 
     public String getSunrise() {
+        if (sunrise == null) return "Empty";
         return sunrise.replaceAll("\\s", "");
     }
 
     public String getSunset() {
+        if (sunset == null) return "Empty";
         return sunset.replaceAll("\\s", "");
     }
 }

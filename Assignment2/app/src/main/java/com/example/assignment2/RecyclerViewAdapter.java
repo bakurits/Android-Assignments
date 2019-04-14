@@ -23,11 +23,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<DayInfo> forecast;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView day, weather;
-        public ImageView icon;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView day, weather;
+        ImageView icon;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             day = (TextView) view.findViewById(R.id.row_day);
             weather = (TextView) view.findViewById(R.id.row_weather);
@@ -36,7 +36,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public RecyclerViewAdapter(List<DayInfo> forecast) {
+    RecyclerViewAdapter(List<DayInfo> forecast) {
         this.forecast = forecast;
     }
 
@@ -53,9 +53,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         DayInfo day = forecast.get(position);
         holder.day.setText(day.getFormattedDate());
-        holder.weather.setText(day.getTemp());
+        holder.weather.setText(day.getTemp() + "\u2103");
         Glide.with(holder.itemView.getContext()).load(day.getCondition().getIconUrl())
                 .into(holder.icon);
+
+
 
     }
 

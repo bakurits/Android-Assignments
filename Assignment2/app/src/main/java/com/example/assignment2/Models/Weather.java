@@ -15,14 +15,17 @@ public class Weather {
 
 
     public Forecast getForecast() {
+        if (forecast == null) new Forecast();
         return forecast;
     }
 
     public CurrentWeather getCurrent() {
+        if (current == null) new CurrentWeather();
         return current;
     }
 
     public Location getLocation() {
+        if (location == null) new Location();
         return location;
     }
 }

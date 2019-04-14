@@ -39,22 +39,27 @@ public class DayInfo {
     private Date date;
 
     public String getTemp() {
+        if (temperature == null) return "Empty";
         return temperature.getTemp().toString();
     }
 
     public Astro getAstro() {
+        if (astro == null) return new Astro();
         return astro;
     }
 
     public Condition getCondition() {
+        if (temperature == null) return new Condition();
         return temperature.getCondition();
     }
 
     public Date getDate() {
+        if (date == null) return new Date();
         return date;
     }
 
     public String getFormattedDate() {
+        if (date == null) return "Empty";
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         String[] shortMonths = new DateFormatSymbols().getShortMonths();

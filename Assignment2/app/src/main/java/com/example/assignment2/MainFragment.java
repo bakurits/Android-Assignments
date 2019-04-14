@@ -1,5 +1,6 @@
 package com.example.assignment2;
 
+import android.app.ProgressDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.assignment2.Models.Astro;
 import com.example.assignment2.Models.Weather;
 import com.google.gson.Gson;
@@ -39,11 +42,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment {
-    private Retrofit retrofit;
     private WeatherApi api;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     private TextView cityTextView;
     private TextView perceivedTextView;
@@ -61,6 +61,9 @@ public class MainFragment extends Fragment {
     private ImageView drop;
     private ImageView drops;
     private ImageView flag;
+
+    private ProgressBar progressBar;
+
 
     private static final String COUNTRY_PARAM = "countryParam";
 
@@ -96,9 +99,11 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
         recyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar_cyclic);
         cityTextView = view.findViewById(R.id.cityName);
         perceivedTextView = view.findViewById(R.id.perceivedInfo);
         precipitationTextView = view.findViewById(R.id.precipitationInfo);
@@ -111,7 +116,7 @@ public class MainFragment extends Fragment {
         drops = view.findViewById(R.id.imageView4);
         flag = view.findViewById(R.id.imageView5);
         topGrad = view.findViewById(R.id.imageView);
-
+        progressBar.setVisibility(View.VISIBLE);
         topDateDay = view.findViewById(R.id.dayInfo);
         topDateHour = view.findViewById(R.id.timeInfo);
 
@@ -121,7 +126,7 @@ public class MainFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(view.getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
@@ -138,7 +143,6 @@ public class MainFragment extends Fragment {
 
 
     private void getForecast(String country) {
-
         api.getWeather(country, "1b4fcf51354d41179f595933190704", 10).enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(@NonNull Call<Weather> call, @NonNull Response<Weather> response) {
@@ -146,8 +150,8 @@ public class MainFragment extends Fragment {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     fillData(response.body());
+                    progressBar.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
@@ -163,7 +167,7 @@ public class MainFragment extends Fragment {
                 .setDateFormat("yyyy-MM-dd")
                 .create();
 
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.apixu.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -179,12 +183,14 @@ public class MainFragment extends Fragment {
         String temperature = data.getCurrent().getTemp();
         String humidity = data.getCurrent().getHumidity();
         String wind = data.getCurrent().getMaxWind();
-        Astro astro = data.getForecast().getForecast().get(0).getAstro();
+        Astro astro = new Astro();
+        if (data.getForecast().getForecast().size() > 0)
+            astro = data.getForecast().getForecast().get(0).getAstro();
+
         String sunRiseAndSet = astro.getSunrise() + " " + astro.getSunset();
         String precip = data.getCurrent().getPrecip();
 
         setTopTime(data.getLocation().getLocalTime());
-
 
         cityTextView.setText(city);
         perceivedTextView.setText(perceived);
@@ -194,7 +200,11 @@ public class MainFragment extends Fragment {
         dayAndNightTextView.setText(sunRiseAndSet);
         precipitationTextView.setText(precip);
 
-        mAdapter = new RecyclerViewAdapter(data.getForecast().getForecast());
+        Glide.with(dayIndicatorIcon.getContext()).load(data.getCurrent().getCondition().getIconUrl())
+                .into(dayIndicatorIcon);
+
+
+        RecyclerView.Adapter mAdapter = new RecyclerViewAdapter(data.getForecast().getForecast());
 
         recyclerView.setAdapter(mAdapter);
 
