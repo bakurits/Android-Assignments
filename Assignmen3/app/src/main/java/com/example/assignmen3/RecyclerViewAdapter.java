@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import static android.support.v4.content.res.TypedArrayUtils.getDrawable;
 import static android.support.v4.content.res.TypedArrayUtils.getString;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -117,11 +118,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (isGrid) return GRID_VIEW;
         else return LIST_VIEW;
     }
-
-
-    public void toggleView() {
-        isGrid = !isGrid;
-    }
+    
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override

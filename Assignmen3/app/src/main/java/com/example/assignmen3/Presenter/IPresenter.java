@@ -9,5 +9,7 @@ public interface IPresenter {
 
     boolean goToParent();
 
+    void toggleView();
+
     void insertData(String title, String desc);
 }

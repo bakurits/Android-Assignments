@@ -56,6 +56,10 @@ public class MainPresenter implements IPresenter {
         if (!isGrid) view.showListView(currentDirectory);
     }
 
-
+    @Override
+    public void toggleView() {
+        isGrid = !isGrid;
+        draw();
+    }
 }
 
