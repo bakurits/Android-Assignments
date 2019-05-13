@@ -2,5 +2,6 @@
     <string name="app_name">File Manager</string>
     <string name="item_cnt">%d items</string>
     <string name="switch_view">switch view</string>
+    <string name="title_activity_pdf_view">PdfViewActivity</string>
 
 </resources>

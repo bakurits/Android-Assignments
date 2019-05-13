@@ -2,6 +2,7 @@ package com.example.assignmen3.View;
 
 import com.example.assignmen3.Model.FileModel;
 
+import java.io.File;
 import java.util.List;
 
 public interface IMainView {
@@ -17,5 +18,8 @@ public interface IMainView {
 
     void endSelectionMode();
 
-    void showEmptyDataError();
+    void displayPdf(File file);
+
+    void displayTxt(File file);
+
 }

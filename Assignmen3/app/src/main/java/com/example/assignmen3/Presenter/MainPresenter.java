@@ -79,7 +79,20 @@ public class MainPresenter implements IPresenter {
             selectItem(position, fileName);
             return;
         }
-        changeFolder(fileName);
+        displayFile(fileName);
+    }
+
+    private void displayFile(String fileName) {
+        FileModel file = new FileModel(currentDirectory, fileName);
+        if (file.getExtension().equals("pdf")) {
+            view.displayPdf(new File(currentDirectory, fileName));
+            return;
+        }
+        if (file.getExtension().equals("txt")) {
+            view.displayTxt(new File(currentDirectory, fileName));
+            return;
+        }
+        if (file.isDirectory()) changeFolder(fileName);
     }
 
     @Override

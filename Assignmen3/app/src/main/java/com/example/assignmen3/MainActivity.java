@@ -1,6 +1,7 @@
 package com.example.assignmen3;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -27,11 +28,7 @@ import com.example.assignmen3.Presenter.IPresenter;
 import com.example.assignmen3.Presenter.MainPresenter;
 import com.example.assignmen3.View.IMainView;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IMainView {
 
@@ -89,14 +86,14 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 
     @Override
     public void selectItem(int position) {
-        View v = Objects.requireNonNull(recyclerView.getLayoutManager()).findViewByPosition(position);
+        View v = (recyclerView.getLayoutManager()).findViewByPosition(position);
         assert v != null;
         v.setBackgroundColor(Color.GRAY);
     }
 
     @Override
     public void unSelectItem(int position) {
-        View v = Objects.requireNonNull(recyclerView.getLayoutManager()).findViewByPosition(position);
+        View v = (recyclerView.getLayoutManager()).findViewByPosition(position);
         assert v != null;
         v.setBackgroundColor(Color.WHITE);
     }
@@ -112,7 +109,17 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     }
 
     @Override
-    public void showEmptyDataError() {
+    public void displayPdf(File file) {
+        Bundle bundle = new Bundle();
+        bundle.putString("fileName", file.getPath());
+        Intent intent = new Intent(MainActivity.this, PdfViewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void displayTxt(File file) {
 
     }
 
