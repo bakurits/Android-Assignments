@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.assignmen3.Model.FileModel;
+import com.example.assignmen3.Presenter.IPresenter;
 import com.example.assignmen3.R;
 
 import org.w3c.dom.Text;
@@ -23,9 +25,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int LIST_VIEW = 0;
     public static final int GRID_VIEW = 1;
 
+    private View.OnClickListener mOnItemClickListener;
+
 
     private List<FileModel> files;
     private boolean isGrid;
+    private IPresenter presenter;
+
 
     class GridViewHolder extends RecyclerView.ViewHolder {
         TextView name;
@@ -35,6 +41,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
             name = view.findViewById(R.id.grid_file_name);
             icon = view.findViewById(R.id.grid_file_icon);
+            view.setTag(this);
+            view.setOnClickListener(onItemClickListener);
         }
     }
 
@@ -49,29 +57,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             lastModified = view.findViewById(R.id.list_file_last_modify_time);
             name = view.findViewById(R.id.list_file_name);
             icon = view.findViewById(R.id.list_file_icon);
+            view.setTag(this);
+            view.setOnClickListener(onItemClickListener);
         }
     }
 
-    RecyclerViewAdapter(List<FileModel> files, boolean isGrid) {
+    RecyclerViewAdapter(List<FileModel> files, boolean isGrid, IPresenter presenter) {
         this.files = files;
         this.isGrid = isGrid;
+        this.presenter = presenter;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = null;
-        switch (viewType) {
-            case LIST_VIEW:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view_item, parent, false);
-                return new ListViewHolder(itemView);
 
-            case GRID_VIEW:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_view_item, parent, false);
-                return new GridViewHolder(itemView);
-
+        if (viewType == LIST_VIEW) {
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view_item, parent, false);
+            return new ListViewHolder(itemView);
         }
-        return null;
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_view_item, parent, false);
+        return new GridViewHolder(itemView);
     }
 
     @Override
@@ -82,10 +88,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             view.icon.setImageResource(file.getIconID());
 
             view.name.setText(file.getName());
-
-            if (file.list() != null) {
-                int asd = 1;
-            }
 
             if (file.isDirectory()) {
                 String itemCntString = view.itemCnt.getContext().getString(R.string.item_cnt, file.itemCnt());
@@ -120,6 +122,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void toggleView() {
         isGrid = !isGrid;
     }
+
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            presenter.changeFolder(files.get(position).getName());
+        }
+    };
 
 
 }

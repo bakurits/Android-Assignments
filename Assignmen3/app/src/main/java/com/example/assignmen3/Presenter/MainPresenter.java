@@ -17,12 +17,13 @@ public class MainPresenter implements IPresenter {
 
     public MainPresenter(MainActivity view) {
         this.view = view;
+        isGrid = false;
     }
 
     @Override
     public void start() {
-        currentDirectory = new FileModel(Environment.getExternalStorageDirectory().getAbsolutePath());
-        view.showListView(currentDirectory);
+        currentDirectory = new FileModel(Environment.getExternalStorageDirectory().getPath());
+        draw();
     }
 
 
@@ -32,9 +33,29 @@ public class MainPresenter implements IPresenter {
     }
 
     @Override
+    public void changeFolder(String name) {
+        currentDirectory = new FileModel(currentDirectory, name);
+        draw();
+    }
+
+    @Override
     public void insertData(String title, String desc) {
 
     }
+
+    @Override
+    public boolean goToParent() {
+        if (currentDirectory.getPath() == null) return false;
+        currentDirectory = new FileModel(currentDirectory.getParent());
+        draw();
+        return true;
+    }
+
+    private void draw() {
+        if (isGrid) view.showGridView(currentDirectory);
+        if (!isGrid) view.showListView(currentDirectory);
+    }
+
 
 }
 

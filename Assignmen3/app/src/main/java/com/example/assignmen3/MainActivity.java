@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.assignmen3.Model.FileModel;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     public void showGridView(FileModel file) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter mAdapter = new RecyclerViewAdapter(file.listFileModels(), true);
+        RecyclerView.Adapter mAdapter = new RecyclerViewAdapter(file.listFileModels(), true, presenter);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        RecyclerView.Adapter mAdapter = new RecyclerViewAdapter(file.listFileModels(), false);
+        RecyclerView.Adapter mAdapter = new RecyclerViewAdapter(file.listFileModels(), false, presenter);
 
         recyclerView.setAdapter(mAdapter);
     }
@@ -72,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     }
 
     private void getPermissions() {
-        switch (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        switch (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             case PackageManager.PERMISSION_DENIED:
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 break;
             case PackageManager.PERMISSION_GRANTED:
                 presenter.start();
@@ -92,5 +93,11 @@ public class MainActivity extends AppCompatActivity implements IMainView {
                 Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (presenter.goToParent()) return;
+        super.onBackPressed();
     }
 }

@@ -35,7 +35,14 @@ public class FileModel extends File implements IFileModel {
     }
 
     private int getFileCnt(File file) {
-        return 0;
+        if (!file.exists()) return 0;
+        if (file.isFile()) return 1;
+        File[] files = file.listFiles();
+        int ans = 0;
+        for (File childFile : files) {
+            ans += getFileCnt(childFile);
+        }
+        return ans;
     }
 
 
@@ -43,7 +50,7 @@ public class FileModel extends File implements IFileModel {
         ArrayList<FileModel> ans = new ArrayList<>();
         File[] files = this.listFiles();
         for (File file : files) {
-            ans.add(new FileModel(this, file.getPath()));
+            ans.add(new FileModel(file.getAbsolutePath()));
         }
 
         return ans;
@@ -71,6 +78,7 @@ public class FileModel extends File implements IFileModel {
     }
 
     public String getExtension() {
+        if (this.isDirectory()) return "folder";
         String path = this.getPath();
         int lastInd = path.lastIndexOf(".");
         if (lastInd != -1)
