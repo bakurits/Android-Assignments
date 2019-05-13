@@ -1,9 +1,7 @@
 package com.example.assignmen3.Model;
 
-public interface FileModel {
-    public boolean isDir();
+public interface IFileModel {
 
-    public String getName();
-
-    public String getIcon();
+    public int getIconID();
+    public int itemCnt();
 }
