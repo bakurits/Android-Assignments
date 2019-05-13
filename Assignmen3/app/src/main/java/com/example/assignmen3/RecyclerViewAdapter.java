@@ -16,8 +16,10 @@ import com.example.assignmen3.R;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.support.v4.content.res.TypedArrayUtils.getDrawable;
 import static android.support.v4.content.res.TypedArrayUtils.getString;
@@ -44,6 +46,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             icon = view.findViewById(R.id.grid_file_icon);
             view.setTag(this);
             view.setOnClickListener(onItemClickListener);
+            view.setOnLongClickListener(onItemLongClickListener);
         }
     }
 
@@ -60,6 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             icon = view.findViewById(R.id.list_file_icon);
             view.setTag(this);
             view.setOnClickListener(onItemClickListener);
+            view.setOnLongClickListener(onItemLongClickListener);
         }
     }
 
@@ -98,7 +102,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             Date date = new Date(file.lastModified());
-            view.lastModified.setText(date.toString());
+            SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            view.lastModified.setText(dt.format(date));
 
         } else {
             GridViewHolder view = (GridViewHolder) viewHolder;
@@ -118,14 +123,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (isGrid) return GRID_VIEW;
         else return LIST_VIEW;
     }
-    
+
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
             int position = viewHolder.getAdapterPosition();
-            presenter.changeFolder(files.get(position).getName());
+            presenter.fileClick(position, files.get(position).getName());
+        }
+    };
+
+
+    private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+            presenter.fileLongClick(position, files.get(position).getName());
+            return true;
         }
     };
 

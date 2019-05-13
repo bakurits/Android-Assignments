@@ -9,6 +9,13 @@ public interface IMainView {
 
     void showListView(FileModel file);
 
+    void selectItem(int position);
+
+    void unSelectItem(int position);
+
+    void startSelectionMode();
+
+    void endSelectionMode();
 
     void showEmptyDataError();
 }

@@ -2,6 +2,7 @@ package com.example.assignmen3;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IMainView {
 
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         presenter = new MainPresenter(this);
 
         topPathView = findViewById(R.id.whole_path_view);
+
+        findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                presenter.deleteSelected();
+            }
+        });
 
 
         getPermissions();
@@ -77,6 +85,30 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         RecyclerView.Adapter mAdapter = new RecyclerViewAdapter(file.listFileModels(), false, presenter);
 
         recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void selectItem(int position) {
+        View v = Objects.requireNonNull(recyclerView.getLayoutManager()).findViewByPosition(position);
+        assert v != null;
+        v.setBackgroundColor(Color.GRAY);
+    }
+
+    @Override
+    public void unSelectItem(int position) {
+        View v = Objects.requireNonNull(recyclerView.getLayoutManager()).findViewByPosition(position);
+        assert v != null;
+        v.setBackgroundColor(Color.WHITE);
+    }
+
+    @Override
+    public void startSelectionMode() {
+        findViewById(R.id.delete_button).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endSelectionMode() {
+        findViewById(R.id.delete_button).setVisibility(View.INVISIBLE);
     }
 
     @Override
