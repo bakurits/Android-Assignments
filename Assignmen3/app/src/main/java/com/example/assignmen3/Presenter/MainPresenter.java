@@ -112,6 +112,15 @@ public class MainPresenter implements IPresenter {
         draw();
     }
 
+    @Override
+    public boolean backButtonClick() {
+        if (selectionMode) {
+            draw();
+            return true;
+        }
+        return goToParent();
+    }
+
     private void deleteFile(File file) {
         if (!file.exists()) return;
         if (file.isFile()) {

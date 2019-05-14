@@ -115,12 +115,15 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         Intent intent = new Intent(MainActivity.this, PdfViewActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-        finish();
     }
 
     @Override
     public void displayTxt(File file) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("fileName", file.getPath());
+        Intent intent = new Intent(MainActivity.this, TextViewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void getPermissions() {
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 
     @Override
     public void onBackPressed() {
-        if (presenter.goToParent()) return;
+        if (presenter.backButtonClick()) return;
         super.onBackPressed();
     }
 

@@ -14,18 +14,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-        </android.support.v7.widget.Toolbar>
+            android:background="?attr/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_pdf_view" />
+    <include layout="@layout/content_text_view" />
 
 
 </android.support.design.widget.CoordinatorLayout>

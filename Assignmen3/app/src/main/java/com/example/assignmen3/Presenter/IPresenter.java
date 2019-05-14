@@ -15,4 +15,6 @@ public interface IPresenter {
 
     void deleteSelected();
 
+    boolean backButtonClick();
+
 }
