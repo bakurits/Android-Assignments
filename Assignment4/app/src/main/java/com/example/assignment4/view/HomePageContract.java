@@ -1,4 +1,4 @@
-package com.example.assignment4.View;
+package com.example.assignment4.view;
 
 import com.example.assignment4.data.NoteEntity;
 

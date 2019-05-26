@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -18,6 +19,12 @@ public class NoteEntity {
 
     @ColumnInfo(name = "content")
     private List<NoteItem> content;
+
+    public NoteEntity(int id, String name, List<NoteItem> content) {
+        this.content = content;
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

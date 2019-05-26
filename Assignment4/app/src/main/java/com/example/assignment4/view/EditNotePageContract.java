@@ -1,11 +1,11 @@
-package com.example.assignment4.View;
+package com.example.assignment4.view;
 
 import com.example.assignment4.data.NoteEntity;
 
 public interface EditNotePageContract {
     interface View {
-        void showPinnedView();
 
+        void showData(NoteEntity note);
 
         void showContentLoading();
 
@@ -21,13 +21,8 @@ public interface EditNotePageContract {
     }
 
     interface Presenter {
+        void backButtonClicked();
 
-        void showNewNotePage();
-
-        void showEditNotePage(int id);
-
-        void pinNote(int id);
-
-        void saveNote(NoteEntity noteEntity);
+        void pinNote();
     }
 }
