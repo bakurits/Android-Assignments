@@ -11,7 +11,8 @@ import java.util.List;
 @Entity(tableName = "notes")
 @TypeConverters({Converters.class})
 public class NoteEntity {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
 
     @ColumnInfo(name = "name")
@@ -20,9 +21,11 @@ public class NoteEntity {
     @ColumnInfo(name = "content")
     private List<NoteItem> content;
 
-    public NoteEntity(int id, String name, List<NoteItem> content) {
+    @ColumnInfo(name = "is_pinned")
+    private boolean isPinned;
+
+    public NoteEntity(String name, List<NoteItem> content) {
         this.content = content;
-        this.id = id;
         this.name = name;
     }
 
@@ -47,4 +50,15 @@ public class NoteEntity {
         this.content = content;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
+    }
 }

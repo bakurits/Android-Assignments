@@ -1,5 +1,6 @@
 package com.example.assignment4.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -52,6 +53,15 @@ public class HomePageActivity extends AppCompatActivity implements HomePageContr
         pinnedItems.setLayoutManager(layoutManager);
         RecyclerView.Adapter mAdapter = new NotesAdapter(notes, presenter);
         pinnedItems.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void navigateToEditNote(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        Intent intent = new Intent(HomePageActivity.this, EditNoteActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 

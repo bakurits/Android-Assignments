@@ -2,7 +2,7 @@ package com.example.assignment4.view;
 
 import android.os.AsyncTask;
 
-import com.example.assignment4.data.Database;
+import com.example.assignment4.data.AppDatabase;
 import com.example.assignment4.data.NoteEntity;
 import com.example.assignment4.data.NoteItem;
 
@@ -19,37 +19,22 @@ public class HomePagePresenter implements HomePageContract.Presenter {
 
     @Override
     public void load(final String searchString) {
-        List<NoteEntity> res = new ArrayList<>();
-        List<NoteItem> items = new ArrayList<>();
-        items.add(new NoteItem("დავალება 1", false));
-        items.add(new NoteItem("დავალება 2", false));
-        items.add(new NoteItem("დავალება 3", false));
-        res.add(new NoteEntity(1, "ბაკური", items));
-        res.add(new NoteEntity(2, "გვანცა", items));
-        res.add(new NoteEntity(3, "თეკლა", items));
-        res.add(new NoteEntity(4, "ცოტნე", items));
-        view.showWithoutPinned(res);
-        //new LoadNoteTask(searchString, view).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new LoadNotesTask(searchString, view).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private static class LoadNoteTask extends AsyncTask<Void, Void, List<NoteEntity>> {
+    private static class LoadNotesTask extends AsyncTask<Void, Void, List<NoteEntity>> {
         private String searchString;
         private HomePageContract.View view;
 
-        private LoadNoteTask(String searchString, HomePageContract.View view) {
+        private LoadNotesTask(String searchString, HomePageContract.View view) {
             this.view = view;
             this.searchString = searchString;
         }
 
         @Override
         protected List<NoteEntity> doInBackground(Void... voids) {
-            try {
-                Thread.sleep(3000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
-            return Database.getInstance().dataDao().getMatchedNotes(searchString);
+            return AppDatabase.getInstance().dataDao().getAllNotes();
         }
 
         @Override
@@ -73,11 +58,12 @@ public class HomePagePresenter implements HomePageContract.Presenter {
 
     @Override
     public void showNewNotePage() {
+        view.navigateToEditNote(-1);
     }
 
     @Override
     public void showEditNotePage(int id) {
-        int dasd = 1;
+        view.navigateToEditNote(id);
     }
 
     @Override

@@ -29,6 +29,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             super(itemView);
             title = itemView.findViewById(R.id.note_title);
             listView = itemView.findViewById(R.id.note_item_list);
+            itemView.setTag(this);
             itemView.setOnClickListener(onItemClickListener);
         }
     }
@@ -62,7 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            SimpleViewHolder viewHolder = (SimpleViewHolder) view.getTag();
             int position = viewHolder.getAdapterPosition();
             int id = notes.get(position).getId();
             presenter.showEditNotePage(id);

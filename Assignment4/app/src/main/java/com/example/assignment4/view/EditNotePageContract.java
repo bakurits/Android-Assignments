@@ -7,9 +7,20 @@ public interface EditNotePageContract {
 
         void showData(NoteEntity note);
 
+        NoteEntity getData();
+
+        void navigateBack();
+
         void showContentLoading();
 
+        void setPinned(boolean pin);
+
         void hideContentLoading();
+
+        void addNewItem(String name);
+
+        void migrateItem(boolean checked, int position);
+
 
         void showContentError();
 
@@ -23,6 +34,14 @@ public interface EditNotePageContract {
     interface Presenter {
         void backButtonClicked();
 
-        void pinNote();
+        void togglePin();
+
+        void setPin(boolean pin);
+
+        void showNote();
+
+        void newItemAdded(String name);
+
+        void migrateItem(boolean checked, int position);
     }
 }

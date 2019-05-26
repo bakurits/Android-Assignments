@@ -10,6 +10,8 @@ public interface HomePageContract {
 
         void showWithoutPinned(List<NoteEntity> notes);
 
+        void navigateToEditNote(int id);
+
         void showContentLoading();
 
         void hideContentLoading();
