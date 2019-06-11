@@ -28,7 +28,7 @@
         </activity>
 
         <receiver
-            android:name=".WIFIToggleReceiver"
+            android:name=".AirplaneModeBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

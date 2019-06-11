@@ -1,32 +1,19 @@
 package com.example.assignment5;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import static com.example.assignment5.Constants.FOREGROUND_SERVICE;
 import static com.example.assignment5.Constants.NEXT_ACTION;
 import static com.example.assignment5.Constants.NOTIFICATION_CHANNEL_ID;
-import static com.example.assignment5.Constants.PLAY_ACTION;
 import static com.example.assignment5.Constants.PREV_ACTION;
-import static com.example.assignment5.Constants.STOP_FOREGROUND_ACTION;
 
 public class PlayMusicService extends Service {
 
@@ -36,6 +23,7 @@ public class PlayMusicService extends Service {
     private MediaPlayer player;
     private int[] musicFiles;
     private int currentMusic;
+    AirplaneModeBroadcastReceiver receiver;
 
     public PlayMusicService() {
         musicFiles = new int[]{R.raw.tone1, R.raw.tone2};
@@ -50,8 +38,9 @@ public class PlayMusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        registerReceiver(new WIFIToggleReceiver(), intentFilter);
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        if (receiver == null) receiver = new AirplaneModeBroadcastReceiver();
+        registerReceiver(receiver, intentFilter);
     }
 
     @Override
@@ -100,6 +89,8 @@ public class PlayMusicService extends Service {
                 0);
 
 
+        NotificationCompat.Action prev = new NotificationCompat.Action.Builder(0, "Previous", pendingIntent).build();
+        NotificationCompat.Action next = new NotificationCompat.Action.Builder(0, "Next", pendingIntent3).build();
         notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setAutoCancel(false)
                 .setContentTitle("Music Player")
@@ -108,8 +99,8 @@ public class PlayMusicService extends Service {
                 .setOngoing(true)
                 .setContentIntent(mainPangingIntent)
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .addAction(R.drawable.ic_launcher_background, "Previous", pendingIntent)
-                .addAction(R.drawable.ic_launcher_background, "Next", pendingIntent3);
+                .addAction(prev)
+                .addAction(next);
 
 
         startForeground(FOREGROUND_SERVICE, notification.build());
