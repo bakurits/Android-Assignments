@@ -2,6 +2,7 @@ package com.example.assignment6.data;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.os.AsyncTask;
 
@@ -9,12 +10,10 @@ import java.util.List;
 
 public class NoteRepository {
     private NoteDao noteDao;
-    private LiveData<List<Note>> allNotes;
 
     public NoteRepository(Application application) {
         NoteDatabase database = NoteDatabase.getInstance();
         noteDao = database.noteDao();
-        allNotes = noteDao.getMatchedNotes("");
     }
 
 
@@ -34,11 +33,9 @@ public class NoteRepository {
         new TogglePinNoteAsyncTask(noteDao).execute(note);
     }
 
-    public LiveData<List<Note>> getAllNotes() {
-        return allNotes;
+    public List<Note> getMatchedNotes(String pattern) {
+        return noteDao.getMatchedNotes(pattern);
     }
-
-
 
 
     private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {
