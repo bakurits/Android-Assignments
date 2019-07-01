@@ -25,6 +25,10 @@ public class UneditableListViewAdapter extends ArrayAdapter<Item> {
         Button remove;
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 
     public UneditableListViewAdapter(Context context, List<Item> items) {
         super(context, R.layout.note_item_list);
