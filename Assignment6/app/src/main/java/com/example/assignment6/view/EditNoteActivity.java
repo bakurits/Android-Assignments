@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.assignment6.R;
-import com.example.assignment6.data.EditNoteViewModel;
+import com.example.assignment6.adapters.ListViewAdapter;
+import com.example.assignment6.viewmodels.EditNoteViewModel;
 import com.example.assignment6.data.Item;
 import com.example.assignment6.data.Note;
 
@@ -29,8 +31,8 @@ public class EditNoteActivity extends AppCompatActivity {
 
     private EditNoteViewModel model;
 
-    private Button backButton;
-    private Button pinButton;
+    private ImageButton backButton;
+    private ImageButton pinButton;
     private EditText title;
     private ListView doneItems;
     private ListView noDoneItems;
@@ -64,40 +66,27 @@ public class EditNoteActivity extends AppCompatActivity {
 
         model = ViewModelProviders.of(this).get(EditNoteViewModel.class);
 
-        drawNote();
-
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Note note = getData();
-                if (id != -1) {
-                    note.setId(id);
-                    model.update(note);
-                } else {
-                    model.insert(note);
-                }
-                note.setPinned(pinned);
-                finish();
+                saveNote();
             }
         });
-
 
         pinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pinned = !pinned;
+                showPin();
             }
         });
-
 
         addItemText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    model.newItemAdded(addItemText.getText().toString());
-                    addItemText.setText("");
+                    addNewItem(addItemText.getText().toString());
                     return true;
                 }
                 return false;
@@ -124,11 +113,13 @@ public class EditNoteActivity extends AppCompatActivity {
                 uncheckedAdapter.setItems(items);
             }
         });
+
+        drawNote();
     }
 
     private void drawNote() {
         Intent intent = getIntent();
-        Note note = null;
+        Note note;
         if (intent.hasExtra(NOTE)) {
             note = (Note) intent.getSerializableExtra(NOTE);
             id = note.getId();
@@ -144,13 +135,19 @@ public class EditNoteActivity extends AppCompatActivity {
 
     private Note getData() {
         ArrayList<Item> items = new ArrayList<>();
-        items.addAll(checkedAdapter.getItems());
-        items.addAll(uncheckedAdapter.getItems());
+        for (Item item : checkedAdapter.getItems()) {
+            item.setChecked(true);
+            items.add(item);
+        }
+        for (Item item : uncheckedAdapter.getItems()) {
+            item.setChecked(false);
+            items.add(item);
+        }
         return new Note(title.getText().toString(), items);
     }
 
 
-    public void showData(Note note) {
+    private void showData(Note note) {
         title.setText(note.getName());
         List<Item> lst = note.getContent();
         ArrayList<Item> checked = new ArrayList<>();
@@ -170,6 +167,31 @@ public class EditNoteActivity extends AppCompatActivity {
 
         doneItems.setAdapter(checkedAdapter);
         noDoneItems.setAdapter(uncheckedAdapter);
+        showPin();
     }
 
+    private void showPin() {
+        if (!pinned) {
+            pinButton.setImageDrawable(getDrawable(R.drawable.baseline_notifications_white));
+        } else {
+            pinButton.setImageDrawable(getDrawable(R.drawable.baseline_notifications_black));
+        }
+    }
+
+    private void addNewItem(String name) {
+        model.newItemAdded(addItemText.getText().toString());
+        addItemText.setText("");
+    }
+
+    private void saveNote() {
+        Note note = getData();
+        if (id != -1) {
+            note.setId(id);
+            model.update(note);
+        } else {
+            model.insert(note);
+        }
+        note.setPinned(pinned);
+        finish();
+    }
 }

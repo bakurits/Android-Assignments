@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import com.example.assignment6.converters.Converters;
+
 import java.io.Serializable;
 import java.util.List;
 

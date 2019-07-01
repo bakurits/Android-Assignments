@@ -1,4 +1,4 @@
-package com.example.assignment6.view;
+package com.example.assignment6.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +26,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private TextView title;
         private ListView listView;
 
-        public SimpleViewHolder(final View itemView) {
+        SimpleViewHolder(final View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.note_title);
             listView = itemView.findViewById(R.id.note_item_list);

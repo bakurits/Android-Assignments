@@ -1,7 +1,8 @@
-package com.example.assignment6.data;
+package com.example.assignment6.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
+import com.example.assignment6.data.Item;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

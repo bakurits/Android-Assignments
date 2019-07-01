@@ -14,9 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.assignment6.R;
-import com.example.assignment6.data.EditNoteViewModel;
+import com.example.assignment6.adapters.NotesAdapter;
 import com.example.assignment6.data.Note;
-import com.example.assignment6.data.NotesViewMotel;
+import com.example.assignment6.viewmodels.NotesViewMotel;
 
 import java.util.ArrayList;
 import java.util.List;

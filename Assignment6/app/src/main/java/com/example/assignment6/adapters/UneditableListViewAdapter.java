@@ -1,4 +1,4 @@
-package com.example.assignment6.view;
+package com.example.assignment6.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -30,7 +30,7 @@ public class UneditableListViewAdapter extends ArrayAdapter<Item> {
         return false;
     }
 
-    public UneditableListViewAdapter(Context context, List<Item> items) {
+    UneditableListViewAdapter(Context context, List<Item> items) {
         super(context, R.layout.note_item_list);
         this.items = items;
         this.context = context;

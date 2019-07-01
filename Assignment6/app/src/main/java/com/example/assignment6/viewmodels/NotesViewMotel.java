@@ -1,4 +1,4 @@
-package com.example.assignment6.data;
+package com.example.assignment6.viewmodels;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -6,6 +6,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+
+import com.example.assignment6.data.Note;
+import com.example.assignment6.data.NoteRepository;
 
 import java.util.List;
 

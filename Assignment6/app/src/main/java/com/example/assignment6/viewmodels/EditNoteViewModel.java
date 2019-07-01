@@ -1,13 +1,14 @@
-package com.example.assignment6.data;
+package com.example.assignment6.viewmodels;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.assignment6.view.ListViewAdapter;
+import com.example.assignment6.data.Item;
+import com.example.assignment6.data.Note;
+import com.example.assignment6.data.NoteRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +33,6 @@ public class EditNoteViewModel extends AndroidViewModel {
 
     public void update(Note note) {
         repository.update(note);
-    }
-
-    public void delete(Note note) {
-        repository.update(note);
-    }
-
-    public void togglePin(Note note) {
-        repository.togglePin(note);
     }
 
     public void setCheckedItems(List<Item> checkedItems) {

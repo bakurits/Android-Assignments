@@ -16,17 +16,12 @@ public class NoteRepository {
         noteDao = database.noteDao();
     }
 
-
     public void insert(Note note) {
         new InsertNoteAsyncTask(noteDao).execute(note);
     }
 
     public void update(Note note) {
         new UpdateNoteAsyncTask(noteDao).execute(note);
-    }
-
-    public void delete(Note note) {
-        new DeleteNoteAsyncTask(noteDao).execute(note);
     }
 
     public void togglePin(Note note) {
@@ -36,7 +31,6 @@ public class NoteRepository {
     public List<Note> getMatchedNotes(String pattern) {
         return noteDao.getMatchedNotes(pattern);
     }
-
 
     private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {
         private NoteDao noteDao;

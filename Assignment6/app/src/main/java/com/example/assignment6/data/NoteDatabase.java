@@ -18,7 +18,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
     public abstract NoteDao noteDao();
 
-    public static NoteDatabase getInstance() {
+    static NoteDatabase getInstance() {
         synchronized (lock) {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(

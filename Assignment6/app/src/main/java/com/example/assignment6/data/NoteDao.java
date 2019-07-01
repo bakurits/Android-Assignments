@@ -1,6 +1,5 @@
 package com.example.assignment6.data;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -9,6 +8,8 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 
+import com.example.assignment6.converters.Converters;
+
 import java.util.List;
 
 @Dao
@@ -16,13 +17,6 @@ import java.util.List;
 public interface NoteDao {
     @Query("SELECT * FROM notes where name like '%' || :name || '%' ORDER BY is_pinned DESC")
     List<Note> getMatchedNotes(String name);
-
-    @Query("SELECT * FROM notes")
-    LiveData<List<Note>> getAll();
-
-
-    @Query("SELECT * FROM notes WHERE id=:id limit 1")
-    LiveData<Note> getNoteById(int id);
 
     @Query("update notes set is_pinned=1 WHERE id = :id")
     void pinNote(int id);
